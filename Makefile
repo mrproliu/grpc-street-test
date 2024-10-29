@@ -48,11 +48,11 @@ start-armeria: show-ips
 
 test-grpc: install-ghz
 	@echo "------------------------------------------------------------------"
-	@echo "starting test single message"
+	@echo "starting test unary message"
 	@echo "------------------------------------------------------------------"
 	@ghz --insecure \
 		--proto ./src/main/proto/hello.proto \
-		--call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloSingle \
+		--call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloUnary \
 		-d '{"name":"Joe"}' \
 		--rps=$(TEST_RPS) --concurrency=$(TEST_CONCURRENCY) --total=$(TEST_TOTAL_REQUEST_COUNT) --connections=$(TEST_CONNECTIONS) \
 		$(SERVER_HOST):8888

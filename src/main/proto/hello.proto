@@ -4,7 +4,7 @@ package io.github.liuhan.grpc.test.protocol;
 option java_package = "io.github.liuhan.grpc.test.protocol";
 
 service HelloWorldService {
-    rpc sayHelloSingle (HelloRequest) returns (HelloResponse) {}
+    rpc sayHelloUnary (HelloRequest) returns (HelloResponse) {}
     rpc sayHelloStream (stream HelloRequest) returns (HelloResponse) {}
 }
 

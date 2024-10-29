@@ -25,7 +25,7 @@ import io.grpc.stub.StreamObserver;
 public class HelloServiceHandler extends HelloWorldServiceGrpc.HelloWorldServiceImplBase {
 
     @Override
-    public void sayHelloSingle(Hello.HelloRequest request, StreamObserver<Hello.HelloResponse> responseObserver) {
+    public void sayHelloUnary(Hello.HelloRequest request, StreamObserver<Hello.HelloResponse> responseObserver) {
         responseObserver.onNext(Hello.HelloResponse.newBuilder().setMessage(request.getName()).build());
         responseObserver.onCompleted();
     }
