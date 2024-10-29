@@ -13,6 +13,7 @@ ARCH := $(shell uname -m | sed 's/x86_64/x86_64/;s/aarch64/arm64/')
 install-ghz:
 	@if ! command -v ghz >/dev/null 2>&1; then \
 		echo "ghz not found, proceeding with installation..."; \
+		set -e; \
 		if [ ! -d $(BIN_DIR) ]; then \
 			mkdir -p $(BIN_DIR); \
 		fi; \
