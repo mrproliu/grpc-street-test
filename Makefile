@@ -27,7 +27,11 @@ install-ghz:
 build:
 	./mvnw clean package
 
-start-grpc-java:
+show-ips:
+	@echo "Fetching all IP addresses on this machine..."
+	@hostname -I 2>/dev/null || ip -o -4 addr show | awk '{print $$4}' || ifconfig | grep 'inet ' | awk '{print $$2}'
+
+start-grpc-java: show-ips
 	java -jar $(GRPC_JAVA_JAR)
 
 test-grpc: install-ghz
