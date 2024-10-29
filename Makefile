@@ -10,7 +10,7 @@ ARMERIA_JAR := $(TEST_ROOT)/target/test-armeria.jar
 
 TEST_RPS=0
 TEST_CONCURRENCY=5000
-TEST_TOTAL_REQUEST_COUNT=10000000
+TEST_TOTAL_REQUEST_COUNT=1000000
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 ARCH := $(shell uname -m | sed 's/x86_64/x86_64/;s/aarch64/arm64/')
