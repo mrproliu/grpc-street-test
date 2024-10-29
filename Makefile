@@ -9,8 +9,8 @@ GRPC_JAVA_JAR := $(TEST_ROOT)/target/test-grpc-java.jar
 ARMERIA_JAR := $(TEST_ROOT)/target/test-armeria.jar
 
 TEST_RPS=0
-TEST_CONCURRENCY=5000
-TEST_TOTAL_REQUEST_COUNT=100000
+TEST_CONCURRENCY=1000
+TEST_TOTAL_REQUEST_COUNT=200000
 TEST_CONNECTIONS=100
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
