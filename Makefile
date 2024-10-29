@@ -16,7 +16,9 @@ install-ghz:
 		if [ ! -d $(BIN_DIR) ]; then \
 			mkdir -p $(BIN_DIR); \
 		fi; \
-		curl -L https://github.com/bojand/ghz/releases/download/v$(GHZ_VERSION)/ghz_$(GHZ_VERSION)_$(OS)_$(ARCH).tar.gz -o $(BIN_DIR)/ghz.tar.gz; \
+		URL=https://github.com/bojand/ghz/releases/download/v$(GHZ_VERSION)/ghz_$(GHZ_VERSION)_$(OS)_$(ARCH).tar.gz; \
+		echo "Downloading ghz from $$URL"; \
+		curl -L $$URL -o $(BIN_DIR)/ghz.tar.gz; \
 		tar -xzf $(BIN_DIR)/ghz.tar.gz -C $(BIN_DIR); \
 		rm -f $(BIN_DIR)/ghz.tar.gz; \
 		echo "Installation completed."; \
