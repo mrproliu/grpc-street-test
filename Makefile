@@ -38,5 +38,20 @@ start-grpc-java: show-ips
 	java -jar $(GRPC_JAVA_JAR)
 
 test-grpc: install-ghz
+	@echo "------------------------------------------------------------------"
 	@echo "starting test single message"
-	@ghz --insecure  --proto ./src/main/proto/hello.proto --call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloSingle -d '{"name":"Joe"}' $(SERVER_HOST):8888
+	@echo "------------------------------------------------------------------"
+	@ghz --insecure \
+		--proto ./src/main/proto/hello.proto \
+		--call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloSingle \
+		-d '{"name":"Joe"}' \
+		$(SERVER_HOST):8888
+	@echo "------------------------------------------------------------------"
+	@echo "starting test streaming message"
+	@echo "------------------------------------------------------------------"
+	@ghz --insecure \
+		--proto ./src/main/proto/hello.proto \
+		--call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloStream \
+		-d '[{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"}]' \
+		-m '{"trace_id":"{{.RequestNumber}}", "timestamp":"{{.TimestampUnixNano}}"}' \
+		$(SERVER_HOST):8888
