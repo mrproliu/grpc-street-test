@@ -38,4 +38,5 @@ start-grpc-java: show-ips
 	java -jar $(GRPC_JAVA_JAR)
 
 test-grpc: install-ghz
-	ghz --insecure  --proto ./src/main/proto/hello.proto --call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloSingle -d '{"name":"Joe"}' $(SERVER_HOST):8888
+	@echo "starting test single message"
+	@ghz --insecure  --proto ./src/main/proto/hello.proto --call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloSingle -d '{"name":"Joe"}' $(SERVER_HOST):8888
