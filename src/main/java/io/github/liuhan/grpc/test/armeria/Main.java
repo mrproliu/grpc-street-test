@@ -16,21 +16,23 @@
  *
  */
 
-package io.github.liuhan.grpc.test.grpc;
+package io.github.liuhan.grpc.test.armeria;
 
+import com.linecorp.armeria.server.Server;
+import com.linecorp.armeria.server.ServerBuilder;
+import com.linecorp.armeria.server.grpc.GrpcService;
 import io.github.liuhan.grpc.test.HelloServiceHandler;
-import io.grpc.Server;
-import io.grpc.ServerBuilder;
 
-import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Main {
-    public static void main(String[] args) throws IOException, InterruptedException {
-        final Server server = ServerBuilder.forPort(8888)
+    public static void main(String[] args) throws InterruptedException {
+        ServerBuilder sb = Server.builder();
+        sb.service(GrpcService.builder()
             .addService(new HelloServiceHandler())
-            .build();
-
+            .build());
+        sb.port(8888);
+        Server server = sb.build();
         server.start();
         new LinkedBlockingQueue<Boolean>().take();
     }

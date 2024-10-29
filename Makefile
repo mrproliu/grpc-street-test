@@ -9,7 +9,7 @@ GRPC_JAVA_JAR := $(TEST_ROOT)/target/test-grpc-java.jar
 
 TEST_RPS=0
 TEST_CONCURRENCY=500
-TEST_TOTAL_REQUEST_COUNT=1000000000
+TEST_TOTAL_REQUEST_COUNT=10000000
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 ARCH := $(shell uname -m | sed 's/x86_64/x86_64/;s/aarch64/arm64/')
@@ -43,7 +43,7 @@ start-grpc-java: show-ips
 
 test-grpc: install-ghz
 	@echo "------------------------------------------------------------------"
-	@echo "starting test single message"
+	@echo "starting test single message with grpc-java"
 	@echo "------------------------------------------------------------------"
 	@ghz --insecure \
 		--proto ./src/main/proto/hello.proto \
@@ -52,7 +52,29 @@ test-grpc: install-ghz
 		--rps=$(TEST_RPS) --concurrency=$(TEST_CONCURRENCY) --total=$(TEST_TOTAL_REQUEST_COUNT) \
 		$(SERVER_HOST):8888
 	@echo "------------------------------------------------------------------"
-	@echo "starting test streaming message"
+	@echo "starting test streaming message with grpc-java"
+	@echo "------------------------------------------------------------------"
+	@ghz --insecure \
+		--proto ./src/main/proto/hello.proto \
+		--call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloStream \
+		-d '[{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"},{"name":"Joe"}]' \
+		-m '{"trace_id":"{{.RequestNumber}}", "timestamp":"{{.TimestampUnixNano}}"}' \
+		--rps=$(TEST_RPS) --concurrency=$(TEST_CONCURRENCY) --total=$(TEST_TOTAL_REQUEST_COUNT) \
+		$(SERVER_HOST):8888
+
+
+test-armeria: install-ghz
+	@echo "------------------------------------------------------------------"
+	@echo "starting test single message with armient"
+	@echo "------------------------------------------------------------------"
+	@ghz --insecure \
+		--proto ./src/main/proto/hello.proto \
+		--call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloSingle \
+		-d '{"name":"Joe"}' \
+		--rps=$(TEST_RPS) --concurrency=$(TEST_CONCURRENCY) --total=$(TEST_TOTAL_REQUEST_COUNT) \
+		$(SERVER_HOST):8888
+	@echo "------------------------------------------------------------------"
+	@echo "starting test streaming message with armient"
 	@echo "------------------------------------------------------------------"
 	@ghz --insecure \
 		--proto ./src/main/proto/hello.proto \

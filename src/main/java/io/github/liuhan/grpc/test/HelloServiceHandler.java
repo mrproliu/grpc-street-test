@@ -16,13 +16,11 @@
  *
  */
 
-package io.github.liuhan.grpc.test.grpc;
+package io.github.liuhan.grpc.test;
 
 import io.github.liuhan.grpc.test.protocol.Hello;
 import io.github.liuhan.grpc.test.protocol.HelloWorldServiceGrpc;
 import io.grpc.stub.StreamObserver;
-
-import java.util.concurrent.atomic.AtomicLong;
 
 public class HelloServiceHandler extends HelloWorldServiceGrpc.HelloWorldServiceImplBase {
 

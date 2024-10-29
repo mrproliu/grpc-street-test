@@ -13,6 +13,10 @@
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+        <jackson.version>2.16.0</jackson.version>
+        <jackson-databind.version>2.16.0</jackson-databind.version>
+
+        <!-- grpc libs  -->
         <grpc.version>1.63.0</grpc.version>
         <netty.version>4.1.108.Final</netty.version>
         <netty-tcnative-boringssl-static.version>2.0.52.Final</netty-tcnative-boringssl-static.version>
@@ -23,8 +27,10 @@
         <protoc-gen-grpc-java.plugin.version>1.42.1</protoc-gen-grpc-java.plugin.version>
         <javax.annotation-api.version>1.3.2</javax.annotation-api.version>
         <objenesis.version>3.1</objenesis.version>
-        <!-- necessary for Java 9+ -->
         <org.apache.tomcat.annotations-api.version>6.0.53</org.apache.tomcat.annotations-api.version>
+
+        <!-- armeria libs -->
+        <armeria.version>1.29.3</armeria.version>
     </properties>
 
     <dependencies>
@@ -55,6 +61,60 @@
             <artifactId>javax.annotation-api</artifactId>
             <version>${javax.annotation-api.version}</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- armeria libs -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-handler</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-http</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-codec-http2</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.linecorp.armeria</groupId>
+            <artifactId>armeria</artifactId>
+            <version>${armeria.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.linecorp.armeria</groupId>
+            <artifactId>armeria-protobuf</artifactId>
+            <version>${armeria.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.linecorp.armeria</groupId>
+            <artifactId>armeria-grpc</artifactId>
+            <version>${armeria.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind.version}</version>
         </dependency>
     </dependencies>
 
@@ -114,7 +174,6 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.4</version>
                 <executions>
-                    <!-- 配置第一个包含依赖的 JAR 文件 -->
                     <execution>
                         <id>jar-with-grpc-java</id>
                         <phase>package</phase>
@@ -131,23 +190,21 @@
                         </configuration>
                     </execution>
 
-                    <!--&lt;!&ndash; 配置第二个包含依赖的 JAR 文件 &ndash;&gt;-->
-                    <!--<execution>-->
-                    <!--    <id>shade-main2</id>-->
-                    <!--    <phase>package</phase>-->
-                    <!--    <goals>-->
-                    <!--        <goal>shade</goal>-->
-                    <!--    </goals>-->
-                    <!--    <configuration>-->
-                    <!--        <finalName>multi-jar-example-main2</finalName>-->
-                    <!--        <transformers>-->
-                    <!--            &lt;!&ndash; 设置主类 &ndash;&gt;-->
-                    <!--            <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
-                    <!--                <mainClass>com.example.MainClass2</mainClass> &lt;!&ndash; 第二个 Main 类 &ndash;&gt;-->
-                    <!--            </transformer>-->
-                    <!--        </transformers>-->
-                    <!--    </configuration>-->
-                    <!--</execution>-->
+                    <execution>
+                        <id>jar-with-armeria</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>test-armeria</finalName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>io.github.liuhan.grpc.test.armeria.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
