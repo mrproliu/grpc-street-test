@@ -11,6 +11,7 @@ ARMERIA_JAR := $(TEST_ROOT)/target/test-armeria.jar
 TEST_RPS=0
 TEST_CONCURRENCY=5000
 TEST_TOTAL_REQUEST_COUNT=1000000
+TEST_CONNECTIONS=100
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 ARCH := $(shell uname -m | sed 's/x86_64/x86_64/;s/aarch64/arm64/')
@@ -53,7 +54,7 @@ test-grpc: install-ghz
 		--proto ./src/main/proto/hello.proto \
 		--call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloSingle \
 		-d '{"name":"Joe"}' \
-		--rps=$(TEST_RPS) --concurrency=$(TEST_CONCURRENCY) --total=$(TEST_TOTAL_REQUEST_COUNT) \
+		--rps=$(TEST_RPS) --concurrency=$(TEST_CONCURRENCY) --total=$(TEST_TOTAL_REQUEST_COUNT) --connections=$(TEST_CONNECTIONS) \
 		$(SERVER_HOST):8888
 	@echo "------------------------------------------------------------------"
 	@echo "starting test streaming message"
