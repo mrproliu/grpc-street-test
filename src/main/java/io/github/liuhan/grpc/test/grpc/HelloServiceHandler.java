@@ -22,7 +22,11 @@ import io.github.liuhan.grpc.test.protocol.Hello;
 import io.github.liuhan.grpc.test.protocol.HelloWorldServiceGrpc;
 import io.grpc.stub.StreamObserver;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class HelloServiceHandler extends HelloWorldServiceGrpc.HelloWorldServiceImplBase {
+
+    private static final AtomicLong streaming = new AtomicLong();
 
     @Override
     public void sayHelloSingle(Hello.HelloRequest request, StreamObserver<Hello.HelloResponse> responseObserver) {
@@ -32,9 +36,13 @@ public class HelloServiceHandler extends HelloWorldServiceGrpc.HelloWorldService
 
     @Override
     public StreamObserver<Hello.HelloRequest> sayHelloStream(StreamObserver<Hello.HelloResponse> responseObserver) {
+        final long l = streaming.incrementAndGet();
+        System.out.println("starting staring: " + l);
+        final AtomicLong count = new AtomicLong(0);
         return new StreamObserver<>() {
             @Override
             public void onNext(Hello.HelloRequest helloRequest) {
+                System.out.println("receiving " + l + ":" + count.incrementAndGet());
             }
 
             @Override
