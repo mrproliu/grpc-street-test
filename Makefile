@@ -8,7 +8,7 @@ PATH := $(BIN_DIR):$(PATH)
 GRPC_JAVA_JAR := $(TEST_ROOT)/target/test-grpc-java.jar
 
 OS := $(shell uname | tr '[:upper:]' '[:lower:]')
-ARCH := $(shell uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/')
+ARCH := $(shell uname -m | sed 's/x86_64/x86_64/;s/aarch64/arm64/')
 
 install-ghz:
 	@if ! command -v ghz >/dev/null 2>&1; then \
@@ -39,4 +39,3 @@ start-grpc-java: show-ips
 test-grpc: install-ghz
 	echo "-------------------------------------------------------------"
 	ghz --insecure  --proto ./src/main/proto/hello.proto --call io.github.liuhan.grpc.test.protocol.HelloWorldService.sayHelloSingle -d '{"name":"Joe"}' $(SERVER_HOST):8888
-	echo "-------------------------------------------------------------"
