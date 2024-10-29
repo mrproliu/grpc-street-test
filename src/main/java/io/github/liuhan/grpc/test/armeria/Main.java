@@ -18,6 +18,7 @@
 
 package io.github.liuhan.grpc.test.armeria;
 
+import com.linecorp.armeria.common.SessionProtocol;
 import com.linecorp.armeria.server.Server;
 import com.linecorp.armeria.server.ServerBuilder;
 import com.linecorp.armeria.server.grpc.GrpcService;
@@ -31,7 +32,7 @@ public class Main {
         sb.service(GrpcService.builder()
             .addService(new HelloServiceHandler())
             .build());
-        sb.port(8888);
+        sb.port(8888, SessionProtocol.HTTP);
         Server server = sb.build();
         server.start();
         new LinkedBlockingQueue<Boolean>().take();
