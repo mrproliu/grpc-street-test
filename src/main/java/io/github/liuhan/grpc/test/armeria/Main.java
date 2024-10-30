@@ -31,10 +31,10 @@ public class Main {
         ServerBuilder sb = Server.builder();
         sb.service(GrpcService.builder()
             .addService(new HelloServiceHandler())
-            .useBlockingTaskExecutor(true)
+                .useBlockingTaskExecutor(true)
             .build());
         sb.port(8888, SessionProtocol.HTTP);
-        sb.blockingTaskExecutor(128);
+        sb.blockingTaskExecutor(256);
         Server server = sb.build();
         server.start();
         new LinkedBlockingQueue<Boolean>().take();
