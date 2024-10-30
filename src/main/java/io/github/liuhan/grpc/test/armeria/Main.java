@@ -33,6 +33,7 @@ public class Main {
             .addService(new HelloServiceHandler())
             .build());
         sb.port(8888, SessionProtocol.HTTP);
+        sb.blockingTaskExecutor(128);
         Server server = sb.build();
         server.start();
         new LinkedBlockingQueue<Boolean>().take();
