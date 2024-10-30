@@ -31,6 +31,7 @@ public class Main {
         ServerBuilder sb = Server.builder();
         sb.service(GrpcService.builder()
             .addService(new HelloServiceHandler())
+            .useBlockingTaskExecutor(true)
             .build());
         sb.port(8888, SessionProtocol.HTTP);
         sb.blockingTaskExecutor(128);
