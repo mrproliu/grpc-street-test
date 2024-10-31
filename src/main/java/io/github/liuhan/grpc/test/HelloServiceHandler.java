@@ -22,6 +22,8 @@ import io.github.liuhan.grpc.test.protocol.Hello;
 import io.github.liuhan.grpc.test.protocol.HelloWorldServiceGrpc;
 import io.grpc.stub.StreamObserver;
 
+import java.util.concurrent.TimeUnit;
+
 public class HelloServiceHandler extends HelloWorldServiceGrpc.HelloWorldServiceImplBase {
 
     @Override
@@ -35,6 +37,11 @@ public class HelloServiceHandler extends HelloWorldServiceGrpc.HelloWorldService
         return new StreamObserver<>() {
             @Override
             public void onNext(Hello.HelloRequest helloRequest) {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(5);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
             @Override

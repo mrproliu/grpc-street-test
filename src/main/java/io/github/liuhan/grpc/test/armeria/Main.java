@@ -36,7 +36,11 @@ public class Main {
                 .useBlockingTaskExecutor(true)
             .build());
         sb.port(8888, SessionProtocol.HTTP);
-        sb.blockingTaskExecutor(512);
+        sb.blockingTaskExecutor(BlockingTaskExecutor.builder()
+            .numThreads(512)
+            .keepAliveTimeMillis(TimeUnit.SECONDS.toMillis(60))
+            .threadNamePrefix("grpcServerPool")
+            .build(), true);
         Server server = sb.build();
         server.start();
         new LinkedBlockingQueue<Boolean>().take();
