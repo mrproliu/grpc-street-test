@@ -38,7 +38,7 @@ public class HelloServiceHandler extends HelloWorldServiceGrpc.HelloWorldService
             @Override
             public void onNext(Hello.HelloRequest helloRequest) {
                 try {
-                    TimeUnit.MILLISECONDS.sleep(5);
+                    TimeUnit.MILLISECONDS.sleep(10);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
