@@ -19,12 +19,14 @@
 package io.github.liuhan.grpc.test.armeria;
 
 import com.linecorp.armeria.common.SessionProtocol;
+import com.linecorp.armeria.common.util.BlockingTaskExecutor;
 import com.linecorp.armeria.server.Server;
 import com.linecorp.armeria.server.ServerBuilder;
 import com.linecorp.armeria.server.grpc.GrpcService;
 import io.github.liuhan.grpc.test.HelloServiceHandler;
 
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -34,7 +36,7 @@ public class Main {
                 .useBlockingTaskExecutor(true)
             .build());
         sb.port(8888, SessionProtocol.HTTP);
-        sb.blockingTaskExecutor(256);
+        sb.blockingTaskExecutor(512);
         Server server = sb.build();
         server.start();
         new LinkedBlockingQueue<Boolean>().take();

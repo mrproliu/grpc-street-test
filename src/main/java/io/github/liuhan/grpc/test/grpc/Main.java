@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         ExecutorService executor = new ThreadPoolExecutor(
-            256, 256, 60, TimeUnit.SECONDS, new SynchronousQueue<>(),
+            512, 512, 60, TimeUnit.SECONDS, new SynchronousQueue<>(),
             new DefaultThreadFactory("grpcServerPool"), new CustomRejectedExecutionHandler()
         );
         final Server server = ServerBuilder.forPort(8888)
