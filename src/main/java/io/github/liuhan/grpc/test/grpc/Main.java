@@ -39,7 +39,7 @@ public class Main {
         );
         final Server server = ServerBuilder.forPort(8888)
             .addService(new HelloServiceHandler())
-            .executor(executor)
+//            .executor(executor)
             .build();
 
         server.start();

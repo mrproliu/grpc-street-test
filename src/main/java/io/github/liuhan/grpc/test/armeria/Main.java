@@ -33,14 +33,14 @@ public class Main {
         ServerBuilder sb = Server.builder();
         sb.service(GrpcService.builder()
             .addService(new HelloServiceHandler())
-                .useBlockingTaskExecutor(true)
+//                .useBlockingTaskExecutor(true)
             .build());
         sb.port(8888, SessionProtocol.HTTP);
-        sb.blockingTaskExecutor(BlockingTaskExecutor.builder()
-            .numThreads(512)
-            .keepAliveTimeMillis(TimeUnit.SECONDS.toMillis(60))
-            .threadNamePrefix("grpcServerPool")
-            .build(), true);
+//        sb.blockingTaskExecutor(BlockingTaskExecutor.builder()
+//            .numThreads(512)
+//            .keepAliveTimeMillis(TimeUnit.SECONDS.toMillis(60))
+//            .threadNamePrefix("grpcServerPool")
+//            .build(), true);
         Server server = sb.build();
         server.start();
         new LinkedBlockingQueue<Boolean>().take();
